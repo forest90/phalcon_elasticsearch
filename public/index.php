@@ -1,4 +1,8 @@
 <?php
+//not a solution at all!
+ini_set('memory_limit', '-1');
+set_time_limit(0);
+mysql_set_charset("utf8");
 
 use Phalcon\Loader;
 use Phalcon\Tag;
@@ -10,12 +14,16 @@ use Phalcon\Db\Adapter\Pdo\Mysql as DbAdapter;
 
 try {
 
+    require_once 'routes.php';
+    require_once '../vendor/autoload.php';
+
     // Register an autoloader
     $loader = new Loader();
     $loader->registerDirs(
         array(
             '../app/controllers/',
-            '../app/models/'
+            '../app/models/',
+            '../app/forms/'
         )
     )->register();
 
@@ -27,8 +35,8 @@ try {
         return new DbAdapter(array(
             "host"     => "localhost",
             "username" => "root",
-            "password" => "secret",
-            "dbname"   => "tutorial"
+            "password" => "",
+            "dbname"   => "phalcon"
         ));
     };
 
@@ -42,7 +50,7 @@ try {
     // Setup a base URI so that all generated URIs include the "tutorial" folder
     $di['url'] = function() {
         $url = new Url();
-        $url->setBaseUri('/tutorial/');
+        $url->setBaseUri('/phalcon/');
         return $url;
     };
 
